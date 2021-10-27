@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
@@ -7,7 +8,7 @@ public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
     private final String fileName;
 
     public HausverwaltungSerializationDAO(String name){
-        fileName = "/" + name;
+        fileName = name;
     }
 
 
@@ -16,17 +17,19 @@ public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
         File file = new File(fileName);
 
         List<Wohnung> wohnungen = null;
-
-        try {
-            ObjectInputStream reader;
-            reader = new ObjectInputStream(new FileInputStream(fileName));
-            wohnungen = (List<Wohnung>) reader.readObject();
-            reader.close();
-        }catch (Exception e){
-            System.out.println("Fehler bei Deserializierung: " + e.getMessage());
-            System.exit(1);
+        if(file.exists()) {
+            try {
+                ObjectInputStream reader;
+                reader = new ObjectInputStream(new FileInputStream(fileName));
+                wohnungen = (List<Wohnung>) reader.readObject();
+                reader.close();
+            } catch (Exception e) {
+                System.out.println("Fehler bei Deserializierung: " + e.getMessage());
+                System.exit(1);
+            }
+            return wohnungen;
         }
-        return wohnungen;
+        return new ArrayList<>();
     }
 
     @Override
@@ -78,10 +81,18 @@ public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
             throw new IllegalArgumentException("Error: Wohnung nicht vorhanden. (id=" + id + ")");
         }
         List<Wohnung>alleWohnungen = getWohnungen();
+        alleWohnungen.remove(getWohnungbyId(id));
+
         File file = new File(fileName);
-        file.delete();
-        for(Wohnung a : alleWohnungen){
-            saveWohnung(a);
+        if(file.exists()) file.delete();
+
+        try{
+            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName,true));
+            writer.writeObject(alleWohnungen);
+            writer.close();
+        }catch (Exception e){
+            System.out.println("Fehler bei Deserializierung: " + e.getMessage());
+            System.exit(1);
         }
     }
 }
