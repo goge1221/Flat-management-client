@@ -1,4 +1,6 @@
-public abstract class Wohnung {
+import java.io.Serializable;
+
+public abstract class Wohnung implements Serializable {
     private int id;
     private double flaeche;
     private int zimmerAnzahl;
@@ -34,6 +36,8 @@ public abstract class Wohnung {
     public int getStockwerk(){return stockwerk;}
 
     public int alter(){return 2021-baujahr;}
+
+    public int getId(){return id;}
 
     public double gesamtKosten(){return 0; }
 
