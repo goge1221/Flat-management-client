@@ -1,3 +1,8 @@
+/**
+ * @author Andrei Goje
+ * @id 12032793
+ */
+
 import java.util.ArrayList;
 
 public class Hausverwaltung {
@@ -8,6 +13,7 @@ public class Hausverwaltung {
         hausverwaltungsDAO = new HausverwaltungSerializationDAO(dateiName);
     }
 
+
     public void printAll(){
         for(Wohnung a: hausverwaltungsDAO.getWohnungen()){
             System.out.println(a);
@@ -15,15 +21,15 @@ public class Hausverwaltung {
     }
 
     public void printById(int id){
-        System.out.println(hausverwaltungsDAO.getWohnungbyId(id));
+        if(hausverwaltungsDAO.getWohnungbyId(id) != null )System.out.println(hausverwaltungsDAO.getWohnungbyId(id));
     }
 
     public void addWohnung(Wohnung a){
         hausverwaltungsDAO.saveWohnung(a);
     }
 
-    public void deleteWohnung(Wohnung a){
-        hausverwaltungsDAO.deleteWohnung(a.getId());
+    public void deleteWohnung(int a){
+        hausverwaltungsDAO.deleteWohnung(a);
     }
 
     public ArrayList<Integer> anzahlWohnungen(){
@@ -57,7 +63,7 @@ public class Hausverwaltung {
                 oldest = a;
         }
         if(oldest != null)
-        return oldest.getId();
+            return oldest.getId();
 
         throw new NullPointerException("Wohnung nicht vorhanden");
     }

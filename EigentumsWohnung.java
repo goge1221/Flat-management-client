@@ -23,25 +23,12 @@ public class EigentumsWohnung extends Wohnung{
     @Override
     public String toString(){
         StringBuilder ewBuilder = new StringBuilder();
-        ewBuilder.append("Typ:                ").append("EW").append("\n");
+        ewBuilder.append("Typ:            ").append("EW").append("\n");
         ewBuilder.append(super.toString());
-        ewBuilder.append("Betriebskosten:     ").append(betriebskosten).append("\n");
-        ewBuilder.append("Ruecklage:          ").append(reparaturRuecklage).append("\n");
+        ewBuilder.append("Betriebskosten: ").append(betriebskosten).append("\n");
+        ewBuilder.append("Ruecklage:      ").append(reparaturRuecklage).append("\n");
 
         return ewBuilder.toString();
     }
-    /*
-    Typ: EW
-Id: 7
-Flaeche: 100.00
-Zimmer: 3
-Stock: 1
-Baujahr: 1890
-PLZ: 1090
-Strasse: Berggasse
-Hausnummer: 19
-Top: 4
-Betriebskosten: 2.55
-Ruecklage: 0.95
-     */
+
 }

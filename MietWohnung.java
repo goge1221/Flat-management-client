@@ -24,10 +24,10 @@ public class MietWohnung extends Wohnung{
     @Override
     public String toString(){
         StringBuilder mwBuilder = new StringBuilder();
-        mwBuilder.append("Typ:                ").append("MW").append("\n");
+        mwBuilder.append("Typ:            ").append("MW").append("\n");
         mwBuilder.append(super.toString());
-        mwBuilder.append("Miete/m2:     ").append(mietkosten).append("\n");
-        mwBuilder.append("Anzahl Mieter:          ").append(anzahlMieter).append("\n");
+        mwBuilder.append("Miete/m2:       ").append(mietkosten).append("\n");
+        mwBuilder.append("Anzahl Mieter:  ").append(anzahlMieter).append("\n");
 
         return mwBuilder.toString();
     }

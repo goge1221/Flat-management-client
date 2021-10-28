@@ -45,28 +45,15 @@ public abstract class Wohnung implements Serializable {
     @Override
     public String toString(){
         StringBuilder toReturn = new StringBuilder();
-        toReturn.append("Id:                 ").append(id).append("\n");
-        toReturn.append("Flaeche:            ").append(flaeche).append("\n");
-        toReturn.append("Zimmer:             ").append(zimmerAnzahl).append("\n");
-        toReturn.append("Stock:              ").append(stockwerk).append("\n");
-        toReturn.append("Baujahr:            ").append(baujahr).append("\n");
-        toReturn.append("PLZ:                ").append(plz).append("\n");
-        toReturn.append("Strasse:            ").append(strasse).append("\n");
-        toReturn.append("Hausnummer:         ").append(strasseNummer).append("\n");
-        toReturn.append("Top:                ").append(top).append("\n");
+        toReturn.append("Id:             ").append(id).append("\n");
+        toReturn.append("Flaeche:        ").append(flaeche).append("\n");
+        toReturn.append("Zimmer:         ").append(zimmerAnzahl).append("\n");
+        toReturn.append("Stock:          ").append(stockwerk).append("\n");
+        toReturn.append("Baujahr:        ").append(baujahr).append("\n");
+        toReturn.append("PLZ:            ").append(plz).append("\n");
+        toReturn.append("Strasse:        ").append(strasse).append("\n");
+        toReturn.append("Hausnummer:     ").append(strasseNummer).append("\n");
+        toReturn.append("Top:            ").append(top).append("\n");
         return toReturn.toString();
     }
-
-    /*
-Id: 3
-Flaeche: 125.80
-Zimmer: 5
-Stock: 2
-Baujahr: 1890
-PLZ: 1090
-Strasse: Berggasse
-Hausnummer: 19
-Top: 5
-
-*/
 }

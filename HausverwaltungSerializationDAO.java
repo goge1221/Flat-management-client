@@ -1,6 +1,10 @@
+/**
+ * @author Andrei Goje
+ * @id 12032793
+ */
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
@@ -16,7 +20,7 @@ public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
     public List<Wohnung> getWohnungen() {
         File file = new File(fileName);
 
-        List<Wohnung> wohnungen = null;
+        List<Wohnung> wohnungen = new ArrayList<>();
         if(file.exists()) {
             try {
                 ObjectInputStream reader;
@@ -45,54 +49,57 @@ public class HausverwaltungSerializationDAO implements HausverwaltungDAO {
     @Override
     public void saveWohnung(Wohnung wohnung) {
 
-        if(getWohnungbyId(wohnung.getId()) != null){
-            throw new IllegalArgumentException("Error: Wohnung bereits vorhanden. (id=" + wohnung.getId() + ")");
-        }
-
         File file = new File(fileName);
 
+        List<Wohnung> wohnungen = new ArrayList<>();
+
         if(file.exists()){
-            try{
-                FileOutputStream fileOutput = new FileOutputStream(fileName);
-                ObjectOutputStream outputStream = new ObjectOutputStream(fileOutput);
-                outputStream.writeObject(wohnung);
-                outputStream.close();
-            }catch (Exception e){
-                System.out.println("Fehler bei Serializierung: " + e.getMessage());
-                System.exit(1);
+            wohnungen = getWohnungen();
+            file.delete();
+        }
+
+        for(Wohnung a : wohnungen){
+            if(a.getId() == wohnung.getId()){
+                try{
+                    ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName,true));
+                    writer.writeObject(wohnungen);
+                    writer.close();
+                } catch (Exception e) {
+                    System.out.println("Fehler bei Serializierung: " + e.getMessage());
+                    System.exit(1);
+                }
+                throw new IllegalArgumentException("Wohnung bereits vorhanden. (id=" + wohnung.getId() + ")");
             }
         }
 
-        else{
-            try{
-                ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName, true));
-                writer.writeObject(wohnung);
-                writer.close();
-            }catch (Exception e){
-                System.out.println("Fehler bei Serializierung: " + e.getMessage());
-                System.exit(1);
-            }
+        wohnungen.add(wohnung);
+
+        try{
+            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName,true));
+            writer.writeObject(wohnungen);
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("Fehler bei Serializierung: " + e.getMessage());
+            System.exit(1);
         }
     }
 
     @Override
     public void deleteWohnung(int id) {
-        if(getWohnungbyId(id) == null){
-            throw new IllegalArgumentException("Error: Wohnung nicht vorhanden. (id=" + id + ")");
-        }
+
         List<Wohnung>alleWohnungen = getWohnungen();
-        alleWohnungen.remove(getWohnungbyId(id));
 
         File file = new File(fileName);
         if(file.exists()) file.delete();
 
-        try{
-            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName,true));
-            writer.writeObject(alleWohnungen);
-            writer.close();
-        }catch (Exception e){
-            System.out.println("Fehler bei Deserializierung: " + e.getMessage());
-            System.exit(1);
+        boolean deleted = false;
+
+        for(Wohnung a : alleWohnungen){
+            if(a.getId() != id) saveWohnung(a);
+            else deleted = true;
+        }
+        if(!deleted){
+            throw new IllegalArgumentException("Wohnung nicht vorhanden. (id=" + id + ")");
         }
     }
 }
