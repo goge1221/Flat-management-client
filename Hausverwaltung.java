@@ -47,25 +47,26 @@ public class Hausverwaltung {
         return toReturn;
     }
 
-    public double getMonatlicheKosten(){
-        //machen sachen am ende
-        return 100;
+    public String getMonatlicheKosten(){
+        double toReturn = 0;
+        for(Wohnung a: hausverwaltungsDAO.getWohnungen()){
+            toReturn += a.gesamtKosten();
+        }
+        return String.format("%.2f",toReturn / hausverwaltungsDAO.getWohnungen().size());
     }
 
-    public int oldestOne(){
-        Wohnung oldest = null; boolean first = true;
+    public void oldestOne(){
+        int oldestMW = 0; int oldestEW = 0; int oldestEWID = 0; int oldestMWID = 0;
+        boolean first = true; boolean firstSecond = true;
         for(Wohnung a : hausverwaltungsDAO.getWohnungen()){
-            if(first){
-                first = false;
-                oldest = a;
-            }
-            if(a.alter() > oldest.alter())
-                oldest = a;
+            if(first && a instanceof MietWohnung){first = false; oldestMW = a.alter(); oldestMWID = a.getId();}
+            if(a instanceof MietWohnung && a.alter() > oldestMW) {oldestMW = a.alter(); oldestMWID = a.getId();}
+            if(firstSecond && a instanceof EigentumsWohnung){firstSecond = false; oldestEW = a.alter(); oldestEWID = a.getId();}
+            if(a instanceof EigentumsWohnung && a.alter() > oldestEW) {oldestEW = a.alter(); oldestEWID = a.getId(); }
         }
-        if(oldest != null)
-            return oldest.getId();
 
-        throw new NullPointerException("Wohnung nicht vorhanden");
+        System.out.println("Id: " + oldestMWID);
+        System.out.println("Id: " + oldestEWID);
     }
 
     public Wohnung getWohnung(int id){

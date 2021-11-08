@@ -9,7 +9,12 @@ public class HausverwaltungClient {
 
 	public static void main(String[] args) {
 		Hausverwaltung hv = new Hausverwaltung(args[0]);
-		if(args[1].equals("list")){
+
+		if(args.length-1 == 0){
+			throw new IllegalArgumentException("Parameter ungueltig.");
+		}
+
+		else if(args[1].equals("list")){
 			if(!args[1].equals(args[args.length - 1])){
 				hv.printById(Integer.parseInt(args[2]));
 			}
@@ -17,7 +22,17 @@ public class HausverwaltungClient {
 		}
 
 
-		if(args[1].equals("add")){
+		else if(args[1].equals("add")){
+
+
+			try{
+				int num = Integer.parseInt(args[3]);
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException("Parameter ungueltig.");
+			}
+
+			if(args.length-1 != 13) throw new IllegalArgumentException("Parameter ungueltig.");
+
 
 			if (args[2].equals("MW")) {
 				MietWohnung toAdd = new MietWohnung(Integer.parseInt(args[3]), Double.parseDouble(args[4]), Integer.parseInt(args[5]),
@@ -35,27 +50,31 @@ public class HausverwaltungClient {
 		}
 
 
-		if(args[1].equals("delete")){
+		else if(args[1].equals("delete")){
 			hv.deleteWohnung(Integer.parseInt(args[2]));
 			System.out.println("Info: Wohnung " + args[2] + " deleted.");
 		}
 
-		if(args[1].equals("count")){
-			if(args[2].isEmpty()) System.out.println(hv.anzahlWohnungen().get(0));
-			if(args[2].equals("MW")){
+		else if(args[1].equals("count")){
+			if(args[args.length-1].equals("MW")){
 				System.out.println(hv.anzahlWohnungen().get(1));
 			}
-			if(args[2].equals("EW")){
+			else if(args[args.length-1].equals("EW")){
 				System.out.println(hv.anzahlWohnungen().get(2));
 			}
+			else System.out.println(hv.anzahlWohnungen().get(0));
 		}
 
-		if(args[1].equals("meancosts")){
+		else if(args[1].equals("meancosts")){
 			System.out.println(hv.getMonatlicheKosten());
 		}
 
-		if(args[1].equals("oldest")){
-			System.out.println(hv.oldestOne());
+		else if(args[1].equals("oldest")){
+			hv.oldestOne();
+		}
+		else{
+			throw new IllegalArgumentException("Parameter ungueltig.");
+
 		}
 	}
 

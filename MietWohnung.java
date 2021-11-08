@@ -13,12 +13,12 @@ public class MietWohnung extends Wohnung{
     @Override
     public double gesamtKosten(){
         if(anzahlMieter > 4){
-            return mietkosten * 1.1;
+            return mietkosten * 1.1 * getFlaeche();
         }
         if(anzahlMieter == 1){
-            return mietkosten;
+            return mietkosten * getFlaeche();
         }
-        return mietkosten * (1+0.025*anzahlMieter);
+        return mietkosten * (1+0.025*anzahlMieter) * getFlaeche();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class MietWohnung extends Wohnung{
         mwBuilder.append("Typ:            ").append("MW").append("\n");
         mwBuilder.append(super.toString());
         mwBuilder.append("Miete/m2:       ").append(mietkosten).append("\n");
-        mwBuilder.append("Anzahl Mieter:  ").append(anzahlMieter).append("\n");
+        mwBuilder.append("Anzahl Mieter:  ").append(anzahlMieter);
 
         return mwBuilder.toString();
     }

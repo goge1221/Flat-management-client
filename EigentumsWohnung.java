@@ -17,7 +17,7 @@ public class EigentumsWohnung extends Wohnung{
         if(getStockwerk() == 0){
             return betriebskosten + reparaturRuecklage;
         }
-        return (betriebskosten + reparaturRuecklage) * (1 + getStockwerk() * 0.02);
+        return (betriebskosten + reparaturRuecklage) * (1 + getStockwerk() * 0.02) * getFlaeche();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class EigentumsWohnung extends Wohnung{
         ewBuilder.append("Typ:            ").append("EW").append("\n");
         ewBuilder.append(super.toString());
         ewBuilder.append("Betriebskosten: ").append(betriebskosten).append("\n");
-        ewBuilder.append("Ruecklage:      ").append(reparaturRuecklage).append("\n");
+        ewBuilder.append("Ruecklage:      ").append(reparaturRuecklage);
 
         return ewBuilder.toString();
     }

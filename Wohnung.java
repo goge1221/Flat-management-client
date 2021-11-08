@@ -15,11 +15,12 @@ public abstract class Wohnung implements Serializable {
 
     public Wohnung(int id, double flaeche, int zimmerAnzahl, int stockwerk, int baujahr, int plz, String strasse, int top, int strasseNummer){
         if(strasse == null){
-            throw new IllegalArgumentException("Error: Parameter ungueltig.");
+            throw new IllegalArgumentException("Parameter ungueltig.");
         }
         if(baujahr > 2021){
-            throw new IllegalArgumentException("Error: Baujahr ungueltig.");
+            throw new IllegalArgumentException("Baujahr ungueltig.");
         }
+
         this.baujahr = baujahr;
         this.flaeche = flaeche;
         this.stockwerk = stockwerk;
@@ -35,6 +36,8 @@ public abstract class Wohnung implements Serializable {
 
     public int getStockwerk(){return stockwerk;}
 
+    public double getFlaeche(){return flaeche;}
+
     public int alter(){return 2021-baujahr;}
 
     public int getId(){return id;}
@@ -46,7 +49,7 @@ public abstract class Wohnung implements Serializable {
     public String toString(){
         StringBuilder toReturn = new StringBuilder();
         toReturn.append("Id:             ").append(id).append("\n");
-        toReturn.append("Flaeche:        ").append(flaeche).append("\n");
+        toReturn.append("Flaeche:        ").append(String.format("%.2f",flaeche)).append("\n");
         toReturn.append("Zimmer:         ").append(zimmerAnzahl).append("\n");
         toReturn.append("Stock:          ").append(stockwerk).append("\n");
         toReturn.append("Baujahr:        ").append(baujahr).append("\n");
@@ -56,4 +59,17 @@ public abstract class Wohnung implements Serializable {
         toReturn.append("Top:            ").append(top).append("\n");
         return toReturn.toString();
     }
+
+    /*
+Id: 3
+Flaeche: 125.80
+Zimmer: 5
+Stock: 2
+Baujahr: 1890
+PLZ: 1090
+Strasse: Berggasse
+Hausnummer: 19
+Top: 5
+
+*/
 }
